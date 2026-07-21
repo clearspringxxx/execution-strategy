@@ -28,7 +28,7 @@ $refLine = "@~/.claude/strategies/execution.md"
 
 if (Test-Path $claudeMd) {
     $content = Get-Content $claudeMd -Raw -Encoding UTF8
-    if ($content -notmatch [regex]::Escape($refLine)) {
+    if ([string]::IsNullOrEmpty($content) -or $content -notmatch [regex]::Escape($refLine)) {
         Add-Content -Path $claudeMd -Value "`n$refLine" -Encoding UTF8
         Write-Host "已添加引用到: $claudeMd" -ForegroundColor Green
     } else {
