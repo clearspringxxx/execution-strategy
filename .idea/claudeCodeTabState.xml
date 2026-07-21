@@ -7,6 +7,7 @@
           <value>
             <TabSessionState>
               <option name="provider" value="claude" />
+              <option name="sessionId" value="5a7ebc9d-d4ad-4c41-a4e2-c7d406f34c76" />
               <option name="cwd" value="D:\create\execution-strategy" />
               <option name="model" value="claude-sonnet-4-6[1m]" />
               <option name="permissionMode" value="bypassPermissions" />
