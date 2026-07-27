@@ -10,7 +10,7 @@ Claude Code's default behavior is to edit files and run commands immediately, ra
 
 ## Solution
 
-Five task categories + three-layer classification logic + behavior constraints.
+Six task categories + three-layer classification logic + behavior constraints + execution rate optimization.
 
 | Type | Condition | Behavior |
 |------|-----------|----------|
@@ -18,9 +18,21 @@ Five task categories + three-layer classification logic + behavior constraints.
 | ② Practical | "Help me fix/add" | Present plan → wait → execute |
 | ③ Task | Design/refactor/architect | Plan + tradeoffs → user chooses → execute |
 | ④ Fix | Errors/env/debugging | Fix directly, report progress |
-| ⑤ Other | Uncertain | Think → provide options → user chooses |
+| ⑤ Chat | Casual chat/greetings/non-tech topics | Normal chat, skip task flow |
+| ⑥ Other | Uncertain | Think → provide options → user chooses |
 
 Classification: explicit intent keywords → pattern matching → context inference. See `execution.md`.
+
+### Execution Rate Optimization
+
+To address "strategy becoming ineffective after long conversations", the following optimizations are applied:
+
+- **Core rules first**: Key requirements highlighted at the top in quote format
+- **Simplified output**: `[①]` instead of verbose classification lines, reducing execution cost
+- **Strong wording**: "Forbidden", "must", "invalid if violated" to reinforce constraints
+- **Repeated emphasis**: Core rules reiterated at the beginning, middle, and end
+- **Self-check mechanism**: Type judgment before each answer, with a self-check checklist
+- **Consequence reinforcement**: "Violating rules = invalid answer"
 
 ## Quick Import
 
