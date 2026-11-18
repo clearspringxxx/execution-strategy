@@ -10,29 +10,20 @@ Claude Code's default behavior is to edit files and run commands immediately, ra
 
 ## Solution
 
-Six task categories + three-layer classification logic + behavior constraints + execution rate optimization.
+Four core rules, ~25 lines total:
 
-| Type | Condition | Behavior |
-|------|-----------|----------|
-| ① Knowledge | Asking why/how/what | Answer directly, don't touch the machine |
-| ② Practical | "Help me fix/add" | Present plan → wait → execute |
-| ③ Task | Design/refactor/architect | Plan + tradeoffs → user chooses → execute |
-| ④ Fix | Errors/env/debugging | Fix directly, report progress |
-| ⑤ Chat | Casual chat/greetings/non-tech topics | Normal chat, skip task flow |
-| ⑥ Other | Uncertain | Think → provide options → user chooses |
+1. **Plan before acting** — tasks that touch files, commands, or config get a plan first (one line for small changes, a breakdown with risks for large ones), then wait for confirmation.
+2. **Answer-only for questions** — explanations, how-tos, and principles are answered directly; nothing is touched.
+3. **Fix directly by default** — errors, environment, and debugging are handled immediately with progress reports; deletions, overwrites, refactors, and dependency swaps require a heads-up first.
+4. **User overrides everything** — "just do it", "skip the process", "I'm in a hurry" suspends all of the above.
 
-Classification: explicit intent keywords → pattern matching → context inference. See `execution.md`.
+Scope boundaries cover new features, design work, ambiguous requests, mid-task stops, and scope creep. A single self-check anchors the whole thing: *did the user agree? if not, present a plan first.*
 
-### Execution Rate Optimization
+## Design Notes
 
-To address "strategy becoming ineffective after long conversations", the following optimizations are applied:
-
-- **Core rules first**: Key requirements highlighted at the top in quote format
-- **Simplified output**: `[①]` instead of verbose classification lines, reducing execution cost
-- **Strong wording**: "Forbidden", "must", "invalid if violated" to reinforce constraints
-- **Repeated emphasis**: Core rules reiterated at the beginning, middle, and end
-- **Self-check mechanism**: Type judgment before each answer, with a self-check checklist
-- **Consequence reinforcement**: "Violating rules = invalid answer"
+- No classification markers, no multi-layer decision tables. The rules are short enough to stay effective in long conversations.
+- An explicit override clause so the strategy never fights the user's own instructions.
+- Rules live in a file referenced from CLAUDE.md via `@` syntax to avoid bloating it.
 
 ## Quick Import
 
