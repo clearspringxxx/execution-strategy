@@ -10,19 +10,20 @@ Claude Code's default behavior is to edit files and run commands immediately, ra
 
 ## Solution
 
-Four core rules, ~25 lines total:
+The file opens by positioning the strategy as a behavior barrier ahead of permission modes: it governs approach and response style only, while tool and file approvals stay with the active mode (ask / plan / edit / auto / bypass). The two layers stack without conflict. Then come the four core rules, ~35 lines total:
 
 1. **Plan before acting** — tasks that touch files, commands, or config get a plan first (one line for small changes, a breakdown with risks for large ones), then wait for confirmation.
 2. **Answer-only for questions** — explanations, how-tos, and principles are answered directly; nothing is touched.
 3. **Fix directly by default** — errors, environment, and debugging are handled immediately with progress reports; deletions, overwrites, refactors, and dependency swaps require a heads-up first.
-4. **User overrides everything** — "just do it", "skip the process", "I'm in a hurry" suspends all of the above.
+4. **User overrides everything** — "just do it", "skip the process", "I'm in a hurry" suspends the strategy layer; the mode's approval gate is unaffected and must be switched by the user.
 
 Scope boundaries cover new features, design work, ambiguous requests, mid-task stops, and scope creep. A single self-check anchors the whole thing: *did the user agree? if not, present a plan first.*
 
 ## Design Notes
 
 - No classification markers, no multi-layer decision tables. The rules are short enough to stay effective in long conversations.
-- An explicit override clause so the strategy never fights the user's own instructions.
+- Layered with permission modes: the strategy decides *how to act*, the mode governs tool approvals. A looser mode (auto / bypass) does not weaken the strategy; a stricter mode (ask / edit / plan) just adds a gate — the two never conflict.
+- An explicit override clause so the strategy never fights the user's own instructions (the override applies to the strategy layer only; the mode gate must be switched by the user).
 - Rules live in a file referenced from CLAUDE.md via `@` syntax to avoid bloating it.
 
 ## Quick Import
